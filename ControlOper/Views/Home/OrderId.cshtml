@@ -1,0 +1,723 @@
+﻿@model List<object[]>
+@using ControlOper.Service
+
+@{
+    Dictionary<int, string> bals = Function.AddBalsDictin();
+    Dictionary<int, string> IsObos = Function.AddOcIsObosn();
+    Dictionary<int, string> NizOcOperOrMen = Function.AddNizOcOperOrMeneg();
+    string none = "";
+    string dis = "";
+    if (!String.IsNullOrEmpty(Model.FirstOrDefault()[10].ToString()))  // idChain второй таблицы
+    {
+
+        if ((ViewBag.UserRol != "admin") && (ViewBag.UserRol != "supervizer"))
+        {
+            none = "display: none;";
+            dis = "disabled";
+        }
+    }
+
+}
+
+  
+<div style="text-align:center;">
+    <div class="polblock" style="width: 43%;">
+        <h2 style="text-align: center;font-size: 20px;margin: 10px 0px;">Общая информация заказа</h2>
+
+        @foreach (var item in Model)
+        {
+        <div>
+            <input type="hidden" value="@ViewBag.Data" id="datahide">
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Уникальный номер заказа: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[5].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Номер обращения: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[56].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Номер лида: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[57].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Город обращения: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[1].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">К кому обращение: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[2].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Ответственное лицо: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[3].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Текст обращения: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[4].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Тип карточки: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[53].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Подтема: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[54].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Причина закрытия: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[55].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Тип контрагента: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[46].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Контактное лицо клиента: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[35].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Название организации клиента: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[34].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Номер контактного телефона клиента: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[37].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Номер телефона клиента: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[38].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">E-mail: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[31].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">ИНН: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[45].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Дата прихода в офис: </span></div>
+
+                <div class="tdblock">
+                    <span class="tdblockspan">
+                        &nbsp @try
+                        {@item[51].ToString().Substring(0, 19) }
+                    catch
+                    {@item[51].ToString()}
+                    </span>
+                </div>
+
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Причина отказа: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[50].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Город строительства: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[48].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Филиал: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[49].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Тип продукции: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[44].ToString()</span></div>
+            </div>
+
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Логин оператора: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[0].ToString()</span></div>
+            </div>
+
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Результат: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[32].ToString()</span></div>
+            </div>
+            @*<div class="trblock">
+            <div class="tdblock"><span class="bolt-text">Имя задачи: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[33].ToString()</span></div>
+        </div>*@
+
+
+            @*<div class="trblock">
+            <div class="tdblock"><span class="bolt-text">Контрагент изменён: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[36].ToString()</span></div>
+        </div>*@
+
+            @*<div class="trblock">
+            <div class="tdblock"><span class="bolt-text">Отправка анкеты по недозвону: </span></div>
+            @if (!string.IsNullOrEmpty(item[52].ToString().Trim()))
+            {
+                if (item[52].ToString().Trim() == "email")
+                {
+                    <div class="tdblock"><span class="tdblockspan">&nbsp Отправлено на почту</span></div>
+                }
+            }
+        </div>*@
+
+            <div class="trblock">
+                @foreach (var item2 in ViewBag.PachLog)
+                {
+                    <div>
+                        <div style="display: inline-block;"><audio src="@item2[0].ToString()" preload="auto" /></div>
+                        <div style="padding: 4px;display: inline-block;vertical-align: top;"><span class="bolt-text"> -  @item2[1].ToString() </span></div>
+                    </div>
+                }
+
+            </div>
+            @*
+        <div class="trblock">
+            <div class="tdblock"><span class="bolt-text">Запись разговора по направлению: </span></div>
+            <div>
+                @{
+                    string str6 = "";
+                    string str7 = "";
+                    string str9 = "";
+                    if (!string.IsNullOrEmpty(item[6].ToString()))
+                    {
+                        str6 = item[6].ToString();
+                    }
+                    if (!string.IsNullOrEmpty(item[7].ToString()))
+                    {
+                        str7 = item[7].ToString();
+                    }
+                    if (!string.IsNullOrEmpty(item[8].ToString()))
+                    {
+                        str9 = item[8].ToString();
+                    }
+
+                }
+                <div style="display: inline-block;"><audio src="@str6" preload="auto" /></div>
+                <div style="padding: 4px;display: inline-block;vertical-align: top;"><span class="bolt-text"> - оператор-клиент</span></div>
+
+            </div>
+            <div>
+                <div style="display: inline-block;"><audio src="@str7" preload="auto" /></div>
+                <div style="padding: 4px;display: inline-block;vertical-align: top;"><span class="bolt-text"> - клиент-менеджер</span></div>
+            </div>
+            <div>
+                <div style="display: inline-block;"><audio src="@str9" preload="auto" /></div>
+                <div style="padding: 4px;display: inline-block;vertical-align: top;"><span class="bolt-text">Разговор оператора с менеджером:</span></div>
+            </div>
+        </div>
+            *@
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Оценка клиента: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[30].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Обоснование оценки: </span></div>
+                <div class="tdblock">
+                    <select id="isocobos" style="font-size: 13px;padding: 1px;" name="IsOcObos" @dis>
+                        @foreach (var item2 in IsObos)
+                        {
+                            if (item2.Value.ToString() == Model.FirstOrDefault()[28].ToString())
+                            {
+                                <option value="@item2.Value" selected>@item2.Value</option>
+                            }
+                            else
+                            {
+                                <option value="@item2.Value">@item2.Value</option>}
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Низкая оценка по причине работы: </span></div>
+                <div class="tdblock">
+                    <select id="nicoc" style="font-size: 13px;padding: 1px;" name="NizOc" @dis>
+                        @foreach (var item3 in NizOcOperOrMen)
+                        {
+                            if (item3.Value.ToString() == Model.FirstOrDefault()[29].ToString())
+                            {
+                                <option value="@item3.Value" selected>@item3.Value</option>
+                            }
+                            else
+                            {
+                                <option value="@item3.Value">@item3.Value</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+            @if (!String.IsNullOrEmpty(Model.FirstOrDefault()[10].ToString()))
+            {
+                if (User.Identity.Name.ToLower() == "administrator")
+                {
+                    <div class="trblock">
+                        <div class="tdblock"><span class="bolt-text">Логин оценившего: </span></div><div class="tdblock"><span class="tdblockspan">&nbsp @item[11].ToString()</span></div>
+                    </div>
+                }
+            }
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">Есть ошибка? </span></div><div class="tdblock"><label><input id="errcheck" type="checkbox"></label></div>
+            </div>
+        </div>
+           
+        <div class="errorder" style="margin-left: 25px;opacity:0.3;margin-bottom: 10px;">
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">1. Ошибка при переадрессации:</span></div>
+                <div class="tdblock">
+                    <select id="error1" style="font-size: 13px;padding: 1px;" name="err1" disabled="disabled" @dis>
+                        @if (Model.FirstOrDefault()[39].ToString() == "Да")
+                        {
+                            <option value="Нет">Нет</option>
+                            <option value="Да" selected>Да</option>
+                        }
+                        else
+                        {
+                            <option value="Нет" selected>Нет</option>
+                            <option value="Да">Да</option>
+                        }
+
+                    </select>
+                </div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">2. Ошибка при вводе контактной информации:</span></div>
+                <div class="tdblock">
+                    <select id="error2" style="font-size: 13px;padding: 1px;" name="err2" disabled="disabled" @dis>
+                        @if (Model.FirstOrDefault()[40].ToString() == "Да")
+                        {
+                            <option value="Нет">Нет</option>
+                            <option value="Да" selected>Да</option>
+                        }
+                        else
+                        {
+                            <option value="Нет" selected>Нет</option>
+                            <option value="Да">Да</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">3. Не верно выбрано ОП :</span></div>
+                <div class="tdblock">
+                    <select id="error3" style="font-size: 13px;padding: 1px;" name="err3" disabled="disabled" @dis>
+                        @if (Model.FirstOrDefault()[41].ToString() == "Да")
+                        {
+                            <option value="Нет">Нет</option>
+                            <option value="Да" selected>Да</option>
+                        }
+                        else
+                        {
+                            <option value="Нет" selected>Нет</option>
+                            <option value="Да">Да</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">4. Не уточнила имя клиента :</span></div>
+                <div class="tdblock">
+                    <select id="error4" style="font-size: 13px;padding: 1px;" name="err4" disabled="disabled" @dis>
+                        @if (Model.FirstOrDefault()[42].ToString() == "Да")
+                        {
+                            <option value="Нет">Нет</option>
+                            <option value="Да" selected>Да</option>
+                        }
+                        else
+                        {
+                            <option value="Нет" selected>Нет</option>
+                            <option value="Да">Да</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">5. Не осуществила поиск текущего клиента: </span></div>
+                <div class="tdblock">
+                    <select id="error5" style="font-size: 13px;padding: 1px;" name="err5" disabled="disabled" @dis>
+                        @if (Model.FirstOrDefault()[43].ToString() == "Да")
+                        {
+                            <option value="Нет">Нет</option>
+                            <option value="Да" selected>Да</option>
+                        }
+                        else
+                        {
+                            <option value="Нет" selected>Нет</option>
+                            <option value="Да">Да</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="bolt-text">6. Не верно выбран Результат(Тип события): </span></div>
+                <div class="tdblock">
+                    <select id="error6" style="font-size: 13px;padding: 1px;" name="err6" disabled="disabled" @dis>
+                        @if (Model.FirstOrDefault()[47].ToString() == "Да")
+                        {
+                            <option value="Нет">Нет</option>
+                            <option value="Да" selected>Да</option>
+                        }
+                        else
+                        {
+                            <option value="Нет" selected>Нет</option>
+                            <option value="Да">Да</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        }
+    </div>
+       
+
+
+    <div  class="polblock" style="width: 55%;">
+        <h2 style="text-align: center;font-size: 20px;margin: 10px 0px;">Оценка звонка оператора</h2>
+        <div >
+            
+            <table style="border-left: 1px solid #cbd7d8;">
+                <thead>
+                    <tr><th class="fierst-td">Номер критерия</th><th>Описание критерия</th><th>Оценка</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="fierst-td">№1:</td>
+                        <td>Приветствие осуществлено в соответствии со стандартом* (Приложение 1, этап 2)</td>
+                        <td>
+                            <select id="oc1" style="font-size: 13px;padding: 1px;" name="oc1" @dis>
+                                @foreach (var item in bals)
+                                {
+                                    if (item.Key.ToString() == Model.FirstOrDefault()[12].ToString())
+                                    {
+                                        <option value="@item.Key" selected >@item.Value</option>
+                                    }
+                                    else {<option value="@item.Key">@item.Value</option> }
+                                   
+                                }
+                              
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fierst-td">№2:</td>
+                        <td>Обращение по имени (не менее 2-3 раз во время разговора).  В соответствии со стандартом* (п. 5.2.4)</td>
+                        <td>
+                            <select id="oc2" style="font-size: 13px;padding: 1px;" name="oc2" @dis>
+                                @foreach (var item in bals)
+                                {
+                                    if (item.Key.ToString() == Model.FirstOrDefault()[13].ToString())
+                                    {
+                                        <option value="@item.Key" selected>@item.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Key">@item.Value</option>}
+
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fierst-td">№3:</td>
+                        <td>Доброжелательность и позитивный настрой (улыбка в голосе)</td>
+                        <td>
+                            <select id="oc3" style="font-size: 13px;padding: 1px;" name="oc3" @dis>
+                                @foreach (var item in bals)
+                                {
+                                    if (item.Key.ToString() == Model.FirstOrDefault()[14].ToString())
+                                    {
+                                        <option value="@item.Key" selected>@item.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Key">@item.Value</option>}
+
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fierst-td">№4:</td>
+                        <td>Инициатива в разговоре</td>
+                        <td>
+                            <select id="oc4" style="font-size: 13px;padding: 1px;" name="oc4" @dis>
+                                @foreach (var item in bals)
+                                {
+                                    if (item.Key.ToString() == Model.FirstOrDefault()[15].ToString())
+                                    {
+                                        <option value="@item.Key" selected>@item.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Key">@item.Value</option>}
+
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fierst-td">№5:</td>
+                        <td>Подстройка под клиента</td>
+                        <td>
+                            <select id="oc5" style="font-size: 13px;padding: 1px;" name="oc5" @dis>
+                                @foreach (var item in bals)
+                                {
+                                    if (item.Key.ToString() == Model.FirstOrDefault()[16].ToString())
+                                    {
+                                        <option value="@item.Key" selected>@item.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Key">@item.Value</option>}
+
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fierst-td">№6:</td>
+                        <td>Выявление потребности клиента</td>
+                        <td>
+                            <select id="oc6" style="font-size: 13px;padding: 1px;" name="oc6" @dis>
+                                @foreach (var item in bals)
+                                {
+                                    if (item.Key.ToString() == Model.FirstOrDefault()[17].ToString())
+                                    {
+                                        <option value="@item.Key" selected>@item.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Key">@item.Value</option>}
+
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fierst-td">№7:</td>
+                        <td>Соблюдение алгоритмов и скриптов при консультировании клиентов</td>
+                        <td>
+                            <select id="oc7" style="font-size: 13px;padding: 1px;" name="oc7" @dis>
+                                @foreach (var item in bals)
+                                {
+                                    if (item.Key.ToString() == Model.FirstOrDefault()[18].ToString())
+                                    {
+                                        <option value="@item.Key" selected>@item.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Key">@item.Value</option>}
+
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fierst-td">№8:</td>
+                        <td>Соответствие сути разговора с клиентом зафиксированной информации в Oktell</td>
+                        <td>
+                            <select id="oc8" style="font-size: 13px;padding: 1px;" name="oc8" @dis>
+                                @foreach (var item in bals)
+                                {
+                                    if (item.Key.ToString() == Model.FirstOrDefault()[19].ToString())
+                                    {
+                                        <option value="@item.Key" selected>@item.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Key">@item.Value</option>}
+
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fierst-td">№9:</td>
+                        <td>Достоверность информации, предоставленной оператором КЦ клиенту</td>
+                        <td>
+                            <select id="oc9" style="font-size: 13px;padding: 1px;" name="oc9" @dis>
+                                @foreach (var item in bals)
+                                {
+                                    if (item.Key.ToString() == Model.FirstOrDefault()[20].ToString())
+                                    {
+                                        <option value="@item.Key" selected>@item.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Key">@item.Value</option>}
+
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fierst-td">№10:</td>
+                        <td>Отсутствие слов-паразитов, просторечных выражений</td>
+                        <td>
+                            <select id="oc10" style="font-size: 13px;padding: 1px;" name="oc10" @dis>
+                                @foreach (var item in bals)
+                                {
+                                    if (item.Key.ToString() == Model.FirstOrDefault()[21].ToString())
+                                    {
+                                        <option value="@item.Key" selected>@item.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Key">@item.Value</option>}
+
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fierst-td">№11:</td>
+                        <td>Работа с возражениями</td>
+                        <td>
+                            <select id="oc11" style="font-size: 13px;padding: 1px;" name="oc11" @dis>
+                                @foreach (var item in bals)
+                                {
+                                    if (item.Key.ToString() == Model.FirstOrDefault()[22].ToString())
+                                    {
+                                        <option value="@item.Key" selected>@item.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Key">@item.Value</option>}
+
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fierst-td">№12:</td>
+                        <td>Работа с конфликтнымы клиентами (обработка жалоб, претензий) в соответствии со стандартом* (Раздел 7)</td>
+                        <td>
+                            <select id="oc12" style="font-size: 13px;padding: 1px;" name="oc12" @dis>
+                                @foreach (var item in bals)
+                                {
+                                    if (item.Key.ToString() == Model.FirstOrDefault()[23].ToString())
+                                    {
+                                        <option value="@item.Key" selected>@item.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Key">@item.Value</option>}
+
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fierst-td">№13:</td>
+                        <td>Постановка вызова на удержание осуществлено в соответствии со стандартом* (Приложение 1, этап 6)</td>
+                        <td>
+                            <select id="oc13" style="font-size: 13px;padding: 1px;" name="oc13" @dis>
+                                @foreach (var item in bals)
+                                {
+                                    if (item.Key.ToString() == Model.FirstOrDefault()[24].ToString())
+                                    {
+                                        <option value="@item.Key" selected>@item.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Key">@item.Value</option>}
+
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fierst-td">№14:</td>
+                        <td>Завершение разговора осуществлено в соответствии со стандартом* (Приложение 1, этап 8)</td>
+                        <td>
+                            <select id="oc14" style="font-size: 13px;padding: 1px;" name="oc14" @dis>
+                                @foreach (var item in bals)
+                                {
+                                    if (item.Key.ToString() == Model.FirstOrDefault()[25].ToString())
+                                    {
+                                        <option value="@item.Key" selected>@item.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Key">@item.Value</option>}
+
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="fierst-td">№15:</td>
+                        <td>Информирование об акции</td>
+                        <td>
+                            <select id="oc15" style="font-size: 13px;padding: 1px;" name="oc15" @dis>
+                                @foreach (var item in bals)
+                                {
+                                    if (item.Key.ToString() == Model.FirstOrDefault()[26].ToString())
+                                    {
+                                        <option value="@item.Key" selected>@item.Value</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.Key">@item.Value</option>}
+
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+        <div >
+            <p style="text-align: center;font-size: 20px;font-style: italic;color: #042f3b;"><b>Комментарий оценки:</b></p>
+            <p style="text-align: center;"><textarea id="comment" name="comment" style="width: 100%;max-width: 660px;height: 130px;" @dis>@Model.FirstOrDefault()[27].ToString()</textarea></p>
+            <div style="text-align: center;margin: 10px; @none ;">
+                <span onclick="otpravkaoc()" style="font-size: 20px;" class="botton">Оценить</span>
+            </div>
+        </div>
+        <input type="hidden" id="validchain" value="@Model.FirstOrDefault()[5].ToString()">
+    </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#errcheck').change(function () {
+                    if (this.checked) {
+                        $('.errorder').css("opacity", "1");
+                        $('.errorder select').removeAttr("disabled");                     
+                    } else {
+                        $('.errorder').css("opacity", "0.3");
+                        $('.errorder select').attr("disabled", "disabled");
+                    }
+                });
+            });
+          
+          
+            function otpravkaoc() {
+
+                var idchain = $("#validchain").val();
+                var comment = $("#comment").val();
+                var isocobos = $("#isocobos").val();
+                var nicoc = $("#nicoc").val();
+                var oc1 = $("#oc1").val();
+                var oc2 = $("#oc2").val();
+                var oc3 = $("#oc3").val();
+                var oc4 = $("#oc4").val();
+                var oc5 = $("#oc5").val();
+                var oc6 = $("#oc6").val();
+                var oc7 = $("#oc7").val();
+                var oc8 = $("#oc8").val();
+                var oc9 = $("#oc9").val();
+                var oc10 = $("#oc10").val();
+                var oc11 = $("#oc11").val();
+                var oc12 = $("#oc12").val();
+                var oc13 = $("#oc13").val();
+                var oc14 = $("#oc14").val();
+                var oc15 = $("#oc15").val();
+                var err1 = $("#error1").val();
+                var err2 = $("#error2").val();
+                var err3 = $("#error3").val();
+                var err4 = $("#error4").val();
+                var err5 = $("#error5").val();
+                var err6 = $("#error6").val();
+                var hidedata = $("#datahide").val();
+                var data = { idorder: idchain, comment: comment, oc1: oc1, oc2: oc2, oc3: oc3, oc4: oc4, oc5: oc5, oc6: oc6, oc7: oc7, oc8: oc8, oc9: oc9, oc10: oc10, oc11: oc11, oc12: oc12, oc13: oc13, oc14: oc14, oc15: oc15, IsOcObos: isocobos, NizOc: nicoc, err1: err1, err2: err2, err3: err3, err4: err4, err5: err5, err6: err6, data: hidedata}
+                $.ajax({
+                    type: "POST",
+                    url: "/maneger-ocenka",
+                    data: data,
+                    success: function (data) {
+                        var idord = document.getElementById(data);
+                        var status = idord.getElementsByClassName('status');
+                        var stat = status[0];
+                        stat.innerHTML = 'Оценен';
+                        stat.style.color = 'green';
+                      //  $("#" + data + " .status").text("Оценен");
+                      //  $("#" + data + " .status").css("color", "green");
+
+                        $(".popup").fadeOut(400);    // Медленно убираем всплывающее окно
+                        setTimeout(function () {    // Выставляем таймер
+                            $(".popup").remove();    // Удаляем разметку всплывающего окна
+                        }, 400);
+                    }
+                });
+            }
+
+
+        </script>
+
+    </div>
+
+
+
+
+
+

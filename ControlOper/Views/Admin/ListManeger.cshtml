@@ -1,0 +1,51 @@
+﻿@model List<object[]>
+
+@{
+    ViewBag.Title = "";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список всех работников колл-центра</title>
+    <link rel="stylesheet" href="~/content/Site.css" media="all">
+</head>
+<body>
+    @Html.Partial("/Views/Shared/header.cshtml", "")
+    @Html.Partial("~/Views/Shared/AdminMenu.cshtml", "")
+    <h2 style="text-align: center;">Список всех работников колл-центра</h2>
+    <div class="mainblock">
+
+        <table class="table-order">
+            <thead>
+                <tr><th>Логин работника</th><th>Должность</th><th>Фамилия имя Отчество</th><th>Действие</th></tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model)
+                { 
+                    <tr>
+                        <td>@item[0].ToString()</td>
+                        @if (item[1].ToString() == "1")
+                        {
+                            <td>Оператор</td>
+                        }
+                        else
+                        {
+                            <td>Неисзвестно</td>
+                        }
+                        <td>@item[2].ToString()</td>
+                        <td class="center-text"><a href="/addmaneger/@item[3].ToString().Trim()">Добавить</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+    </div>
+    @Html.Partial("~/Views/Shared/footer.cshtml", "")
+</body>
+</html>
+
+

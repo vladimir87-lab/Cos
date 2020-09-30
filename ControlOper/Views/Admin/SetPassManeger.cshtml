@@ -1,0 +1,84 @@
+﻿@model List<object[]>
+
+@{
+    ViewBag.Title = "";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Установка Пароля для менеджера</title>
+    <link rel="stylesheet" href="~/content/Site.css" media="all">
+</head>
+<body>
+    @Html.Partial("/Views/Shared/header.cshtml", "")
+    @Html.Partial("~/Views/Shared/AdminMenu.cshtml", "")
+    <h2 style="text-align: center;">Установка Пароля для менеджера</h2>
+    <div class="mainblock" style="text-align: center;">
+        @foreach(var item in Model)
+        { 
+            <div class="block-set-pass">
+            <div class="trblock">
+                <div class="tdblock"><span class="tdblockspan" >Номер сотрудника в системе: </span></div><div class="tdblock"><span class="bolt-text">&nbsp @item[0].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="tdblockspan">Имя сотрудника: </span></div><div class="tdblock"><span class="bolt-text">&nbsp @item[4].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                @if (item[3].ToString() == "maneger")
+                {
+                    <div class="tdblock"><span class="tdblockspan">Должность сотрудника: </span></div><div class="tdblock"><span class="bolt-text">&nbsp Менеджер</span></div>
+                }
+                else if (item[3].ToString() == "admin")
+                {
+                    <div class="tdblock"><span class="tdblockspan">Должность сотрудника: </span></div><div class="tdblock"><span class="bolt-text">&nbsp Администратор</span></div>
+                }
+            </div>
+            <div class="trblock">
+                <div class="tdblock"><span class="tdblockspan">Логин для авторизации в системе: </span></div><div class="tdblock"><span class="bolt-text">&nbsp @item[1].ToString()</span></div>
+            </div>
+            <div class="trblock">
+                <form action="/setmanegerpas" method="post" enctype="multipart/form-data">
+                    <div><span class="tdblockspan">Установить новый пароль авторизации в системе:</span></div>
+                    <div><input name="pass" value="" type="text" style="width:250px; margin:5px;"></div>
+                    <input type="hidden" name="iduser" value="@item[0].ToString()">
+                    <div><input type="submit" value="Установить" style="margin:5px;" class="botton"></div>
+                </form>              
+            </div>
+            </div>
+         }
+        
+
+        @*<table class="table-order">
+            <thead>
+                <tr><th>Логин работника</th><th>Должность</th><th>Фамилия имя Отчество</th><th>Действие</th></tr>
+            </thead>
+            <tbody>
+                @while (Model.Read())
+                {
+                    <tr>
+                        <td>@Model[0].ToString()</td>
+                        @if (Model[1].ToString() == "1")
+                        {
+                            <td>Оператор</td>
+                        }
+                        else
+                        {
+                            <td>Неисзвестно</td>
+                        }
+                        <td>@Model[2].ToString()</td>
+                        <td class="center-text"><a href="/addmaneger/@Model[3].ToString().Trim()">Добавить</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>*@
+
+
+    </div>
+    @Html.Partial("~/Views/Shared/footer.cshtml", "")
+</body>
+</html>
+
+

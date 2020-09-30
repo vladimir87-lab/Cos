@@ -1,0 +1,575 @@
+﻿@model List<object[]>
+@using ControlOper.Service
+@{
+    ViewBag.Title = "";
+    DateTime now = DateTime.Now;
+    DateTime startDate = new DateTime(now.Year, now.Month, 1);
+    DateTime endDate = startDate.AddMonths(1).AddDays(-1);
+
+
+    string username = "";
+    if (User.Identity.IsAuthenticated)
+    {
+        SqlQuery sq = new SqlQuery();
+        List<object[]> result = new List<object[]>();
+
+        result = sq.FoundUser(User.Identity.Name, "name");
+        foreach (var item in result)
+        {
+            username = item[4].ToString();
+        }
+    }
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список всех заказов</title>
+    <link rel="stylesheet" href="~/content/Site.css" media="all">
+    <script src="/Scripts/jquery-1.11.3.min.js"></script>
+    <script src="~/Scripts/focus.js"></script>
+    <script src="/Scripts/audiojs/audiojs/audio.min.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            //$('input[value="Потенциальный лид"]').change(function () {
+            //    if (this.checked) {
+            //        $("#selectdis").removeAttr("disabled");
+            //    } else {
+            //        $("#selectdis").attr("disabled", "disabled");
+            //    }
+            //});
+            $('.check6 input[value=1]').change(function () {
+                if (this.select) {
+                    $("#selectdis2").removeAttr("disabled");
+                } else {
+                    $("#selectdis2").attr("disabled", "disabled");
+                }
+            });
+            $('.check6 input[value!=1]').change(function () {
+                $("#selectdis2").attr("disabled", "disabled");
+            });
+
+            $("body").click(function () {
+                $(".block-checkbox").css("display", "none");
+            });
+
+            $(".block-checkbox").click(function (ev) {
+
+                ev.stopPropagation();
+            });
+
+        });
+
+        function sbros() {
+            $('#filt-idchain').val('');
+            $('#filt-telef').val('');
+            $('#filt-1c').val('');
+            
+            $('#iddate1').val('');
+            $('#idtime1').val('');
+            $('#iddate2').val('');
+            $('#idtime2').val('');
+            
+            $('#creatlid').prop('checked', false); 
+            $('.block-checkbox input').prop('checked', false); 
+            $('.check6 input:eq(0)').prop('checked', true); 
+            
+        }
+
+        function showCheckboxes(event, srt) {
+            var status = $("#selectdis").attr("disabled");
+            var status2 = $("#selectdis2").attr("disabled");
+            if (srt == "checkboxes2") {
+                if (status == "disabled") {
+                    return;
+                }
+            }
+            if (srt == "checkboxes7") {
+                if (status2 == "disabled") {
+                    return;
+                }
+            }
+
+            $(".block-checkbox").css("display", "none");
+            $("#" + srt).css("display", "block");
+            event.stopPropagation();
+
+        }
+
+        function filterorder(page = 1) {
+            $("#filter-result").css("opacity", "0.2");
+
+            function fff(data2) {
+                $("#filter-result").html(data2);
+                $("#filter-result").css("opacity", "1");
+            }
+
+            var a1 = $('.check1 input:checked');
+            var podrazdel_arr = [];
+            for (var x = 0; x < a1.length; x++) {
+                podrazdel_arr.push(a1[x].value);
+            }
+            var a2 = $('.check2 input:checked');
+            var podtema_arr = [];
+            for (var x = 0; x < a2.length; x++) {
+                podtema_arr.push(a2[x].value);
+            }
+            var a3 = $('.check3 input:checked');
+            var oper_arr = [];
+            for (var x = 0; x < a3.length; x++) {
+                oper_arr.push(a3[x].value);
+            }
+            var a4 = $('.check4 input:checked');
+            var cart_arr = [];
+            for (var x = 0; x < a4.length; x++) {
+                cart_arr.push(a4[x].value);
+            }
+            var a5 = $('.check5 input:checked');
+            var result_arr = [];
+            for (var x = 0; x < a5.length; x++) {
+                result_arr.push(a5[x].value);
+            }
+            var a7 = $('.check7 input:checked');
+            var userlog_arr = [];
+            for (var x = 0; x < a7.length; x++) {
+                userlog_arr.push(a7[x].value);
+            }
+            var a8 = $('.check8 input:checked');
+            var ocenclient_arr = [];
+            for (var x = 0; x < a8.length; x++) {
+                ocenclient_arr.push(a8[x].value);
+            }
+            var a9 = $('.check9 input:checked');
+            var prichzak_arr = [];
+            for (var x = 0; x < a9.length; x++) {
+                prichzak_arr.push(a9[x].value);
+            }
+            var ocenen = $('.check6 input:checked').val();
+
+            var creatlid;
+            if ($('#creatlid').prop('checked')) {
+                creatlid = $('#creatlid').val();
+            }
+            
+            date1 = $("#iddate1").val();
+            date2 = $("#iddate2").val();
+            time1 = $("#idtime1").val();
+            time2 = $("#idtime2").val();
+            var tel = $("#filt-telef").val();
+            var filtid = $("#filt-idchain").val();
+
+            var namber1c = $('#filt-1c').val();
+
+            var data = { podrazdel: podrazdel_arr, podtema: podtema_arr, oper: oper_arr, cart: cart_arr, result: result_arr, date1: date1, date2: date2, time1: time1, time2: time2, ocenen: ocenen, page: page, tel: tel, namber1c: namber1c, username: userlog_arr, filtidchain: filtid, ocenclient: ocenclient_arr, Creatlid: creatlid, Prichzak: prichzak_arr }
+            $.ajax({
+                type: "POST",
+                url: "/filterorder",
+                data: data,
+                success: function (data) {
+                    setTimeout(fff(data), 5000);
+                }
+            });
+        }
+
+        function showwindow(idchain) {
+
+            $.ajax({
+                type: "GET",
+                url: "/maneger-ocenka/" + idchain,
+                // data: data,
+                success: function (data) {
+
+                    $(".mainblock").append("<div class='popup'>" + //Добавляем в тело документа разметку всплывающего окна
+                        "<div class='popup_bg'></div><div class='popup_img'>" + // Блок, который будет служить фоном затемненным
+                        "<div class='showwindowblock' ><div class='close_cros' style='position: absolute; background-image: url(\"/Content/close.png\"); width: 32px; height: 32px; right: 0px; cursor: pointer;'></div>" + data + "</div>" + // Само увеличенное фото
+                        "</div></div>");
+                    $(".popup").fadeIn(400); // Медленно выводим изображение
+                    $(".close_cros, .popup_bg").click(function () {    // Событие клика на затемненный фон
+                        $(".popup").fadeOut(400);    // Медленно убираем всплывающее окно
+                        setTimeout(function () {    // Выставляем таймер
+                            $(".popup").remove(); // Удаляем разметку всплывающего окна
+                        }, 400);
+                    });
+
+                    audiojs.events.ready(function () {
+                        var as = audiojs.createAll();
+                    });
+
+                }
+            });
+
+        }
+
+        function CheckAll(numb) {           
+            //if ($('.allcheck1').prop('checked')) {
+            //    $('.allcheck1').removeAttr('checked');
+            //    $('.check1 input').removeAttr('checked');
+            //} else {
+            //    $('.allcheck1').attr('checked', 'checked');
+            //    $('.check1 input').attr('checked', 'checked');
+            //}            
+
+            if ($('.allcheck' + numb+' input').prop('checked')) {             
+                $(".check" + numb+" input").prop('checked', true);                
+            } else {
+                $('.check' + numb +' input').prop('checked', false);  
+            }
+        }
+
+    </script>
+    @Html.Partial("/Views/Shared/header.cshtml", username );
+    <h2 style="text-align: center;">Список всех заказов</h2>
+    <div class="mainblock">
+        <div class="filter-block">
+            <form action="/filterorder" method="post" enctype="multipart/form-data">
+                <h3 style="margin: 0px;text-align: center;">Фильтры</h3>
+
+                <div class="filter1">
+                    <div class="tit-filt-block"><p><b>по Id звонка</b></p></div>
+                    <div class="input-tel-filt">
+                        <input id="filt-idchain" type="text" value="" name="filt-idchain" maxlength="50" style="font-size: 13px;width: 220px;" />
+                    </div>
+                </div>
+
+                <div class="filter1">
+                    <div class="tit-filt-block"><p><b>по подразделению</b></p></div>
+                    <div class="multiselect">
+                        <div class="selectBox" id="showlistcheckbox1" onclick="showCheckboxes(event,'checkboxes1')">
+                            <select style="font-size: 15px;font-weight: normal;">
+                                <option>Подразделение</option>
+                            </select>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="block-checkbox" id="checkboxes1">
+                            <label class="allcheck1">
+                                <input type="checkbox" name="podrazdel" value="" onchange="CheckAll(1)" /><span>Выбрать все</span>
+                            </label>
+                            @foreach (var item in ViewBag.ListPadrazdel)
+                            {
+                                <label class="check1">
+                                    <input type="checkbox" name="podrazdel" value="@item[0]" /><span>@item[0]</span>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter1">
+                    <div class="tit-filt-block"><p><b>по логину оператора</b></p></div>
+                    <div class="multiselect">
+                        <div class="selectBox" onclick="showCheckboxes(event,'checkboxes3')">
+                            <select style="font-size: 15px;font-weight: normal;">
+                                <option>Логин оператора</option>
+                            </select>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="block-checkbox" id="checkboxes3">
+                            <label class="allcheck3">
+                                <input type="checkbox" name="podrazdel" value="" onchange="CheckAll(3)" /><span>Выбрать все</span>
+                            </label>
+                            @foreach (var item in ViewBag.listopers)
+                            {
+                                <label class="check3">
+                                    <input type="checkbox" name="oper" value="@item" /><span>@item</span>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter1">
+                    <div class="tit-filt-block"><p><b>по статусу</b></p></div>
+                    <div class="multiselect">
+                        <div class="selectBox" onclick="showCheckboxes(event,'checkboxes5')">
+                            <select style="font-size: 15px;font-weight: normal;">
+                                <option>результаты</option>
+                            </select>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="block-checkbox" id="checkboxes5">
+                            <label class="allcheck5">
+                                <input type="checkbox" name="podrazdel" value="" onchange="CheckAll(5)" /><span>Выбрать все</span>
+                            </label>
+                            @foreach (var item in ViewBag.listresult)
+                            {
+                                <label class="check5">
+                                    <input type="checkbox" name="result" value="@item" /><span>@item</span>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="filter1">
+                    <div class="tit-filt-block"><p><b>по карточкам</b></p></div>
+                    <div class="multiselect">
+                        <div class="selectBox" onclick="showCheckboxes(event,'checkboxes4')">
+                            <select style="font-size: 15px;font-weight: normal;">
+                                <option>карточки</option>
+                            </select>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="block-checkbox" id="checkboxes4">
+                            <label class="allcheck4">
+                                <input type="checkbox" name="podrazdel" value="" onchange="CheckAll(4)" /><span>Выбрать все</span>
+                            </label>
+                            @foreach (var item in ViewBag.listacrt)
+                            {
+                                <label class="check4">
+                                    <input type="checkbox" name="cart" value="@item" /><span>@item</span>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="filter1">
+                    <div class="tit-filt-block"><p><b>по подтеме</b></p></div>
+                    <div class="multiselect">
+                        <div class="selectBox" onclick="showCheckboxes(event,'checkboxes2')">
+                            <select id="selectdis"  style="font-size: 15px;font-weight: normal;">
+                                <option>Подтема</option>
+                            </select>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="block-checkbox" id="checkboxes2">
+                            <label class="allcheck2">
+                                <input type="checkbox" name="podrazdel" value="" onchange="CheckAll(2)" /><span>Выбрать все</span>
+                            </label>
+                            @foreach (var item in ViewBag.ListPodtema)
+                            {
+                                <label class="check2">
+                                    <input type="checkbox" name="podtema" value="@item" /><span>@item</span>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="filter1">
+                    <div class="tit-filt-block"><p><b>по оценкам</b></p></div>
+                    <div class="multiselect">
+                        <div class="selectBox" onclick="showCheckboxes(event,'checkboxes6')">
+                            <select style="font-size: 15px;font-weight: normal;">
+                                <option>Оценки</option>
+                            </select>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="block-checkbox" id="checkboxes6">
+                            <label class="check6">
+                                <input type="radio" name="ocenen" value="0" checked /><span>Все оценки</span>
+                            </label>
+                            <label class="check6">
+                                <input id="clickradio" type="radio" name="ocenen" value="1" /><span>Оцененные</span>
+                            </label>
+                            <label class="check6">
+                                <input type="radio" name="ocenen" value="-1" /><span>Неоцененные</span>
+                            </label>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="filter1">
+                    <div class="tit-filt-block"><p><b>по имени оценившего</b></p></div>
+                    <div class="multiselect">
+                        <div class="selectBox" onclick="showCheckboxes(event,'checkboxes7')">
+                            <select id="selectdis2" disabled="disabled" style="font-size: 15px;font-weight: normal;">
+                                <option>Логин пользователя</option>
+                            </select>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="block-checkbox" id="checkboxes7">
+                            <label class="allcheck7">
+                                <input type="checkbox" name="podrazdel" value="" onchange="CheckAll(7)" /><span>Выбрать все</span>
+                            </label>
+                            @foreach (var item in ViewBag.listuserlogin)
+                            {
+                                <label class="check7">
+                                    <input type="checkbox" name="podtema" value="@item" /><span>@item</span>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="filter1">
+                    <div class="tit-filt-block"><p><b>Причина закрытия</b></p></div>
+                    <div class="multiselect">
+                        <div class="selectBox" onclick="showCheckboxes(event,'checkboxes9')">
+                            <select id="selectdis9" style="font-size: 15px;font-weight: normal;">
+                                <option>Причина</option>
+                            </select>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="block-checkbox" id="checkboxes9">
+                            <label class="allcheck9">
+                                <input type="checkbox" name="prichzak" value="" onchange="CheckAll(9)" /><span>Выбрать все</span>
+                            </label>
+                            @foreach (var item in ViewBag.listprichzak)
+                            {
+                                <label class="check9">
+                                    <input type="checkbox" name="prichzak" value="@item" /><span>@item</span>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter1">
+                    <div class="tit-filt-block"><p><b>по оценки клиента</b></p></div>
+                    <div class="multiselect">
+                        <div class="selectBox" onclick="showCheckboxes(event,'checkboxes8')">
+                            <select id="selectdis2" style="font-size: 15px;font-weight: normal;">
+                                <option>Оценка клиента</option>
+                            </select>
+                            <div class="overSelect"></div>
+                        </div>
+                        <div class="block-checkbox" id="checkboxes8">
+                            <label class="allcheck8">
+                                <input type="checkbox" name="podrazdel" value="" onchange="CheckAll(8)" /><span>Выбрать все</span>
+                            </label>
+                            <label class="check8"><input type="checkbox" name="podtema" value="0" /><span>0</span></label>
+                            <label class="check8"><input type="checkbox" name="podtema" value="1" /><span>1</span></label>
+                            <label class="check8"><input type="checkbox" name="podtema" value="2" /><span>2</span></label>
+                            <label class="check8"><input type="checkbox" name="podtema" value="3" /><span>3</span></label>
+                            <label class="check8"><input type="checkbox" name="podtema" value="4" /><span>4</span></label>
+                            <label class="check8"><input type="checkbox" name="podtema" value="5" /><span>5</span></label>
+                            <label class="check8"><input type="checkbox" name="podtema" value="6" /><span>6</span></label>
+                            <label class="check8"><input type="checkbox" name="podtema" value="7" /><span>7</span></label>
+                            <label class="check8"><input type="checkbox" name="podtema" value="8" /><span>8</span></label>
+                            <label class="check8"><input type="checkbox" name="podtema" value="9" /><span>9</span></label>
+                            <label class="check8"><input type="checkbox" name="podtema" value="80" /><span>80</span></label>
+                            <label class="check8"><input type="checkbox" name="podtema" value="90" /><span>90</span></label>
+                            <label class="check8"><input type="checkbox" name="podtema" value="99" /><span>99</span></label>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter1">
+                    <div class="tit-filt-block"><p><b>по № телефона клиента</b></p></div>
+                    <div class="input-tel-filt">
+                        <input id="filt-telef" type="text" value="" name="telef" maxlength="12" />
+                    </div>
+                </div>
+                <div class="filter1">
+                    <div class="tit-filt-block"><p><b>по № лида\обращения</b></p></div>
+                    <div class="input-tel-filt">
+                        <input id="filt-1c" type="text" value="" name="namber1c" maxlength="12" />
+                    </div>
+                </div>
+
+                <div class="filter1">
+                    <div class="tit-filt-block"><p><b>по дате</b></p></div>
+                    <div style="padding: 3px;">
+                        <div style="display:inline-block">Начало:</div>
+                        <div style="display:inline-block">
+                            <input id="iddate1" type="date" name="date1" value="@startDate.ToString("yyyy-MM-dd")" style="font-size: 16px;padding: 3px;">
+                            <input id="idtime1" type="time" name="time1" value="00:00" style="font-size: 16px;padding: 3px;">
+                        </div>
+                    </div>
+                    <div style="padding: 3px;">
+                        <div style="display:inline-block;margin-right: 7px;">Конец:</div>
+                        <div style="display:inline-block">
+                            <input id="iddate2" type="date" name="date2" value="@endDate.ToString("yyyy-MM-dd")" style="font-size: 16px;padding: 3px;">
+                            <input id="idtime2" type="time" name="time2" value="23:59" style="font-size: 16px;padding: 3px;">
+                        </div>
+                    </div>
+                </div>
+                <div class="filter1" style="width: 130px;">
+                    <div class="tit-filt-block" style="display: inline-block;"><p><b>Создан лид</b></p></div>
+                    <div class="" style="display: inline-block;">
+                        <div class="selectBox">
+                            <input type="checkbox" id="creatlid" value="1" />
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align:center; display:inline-block;vertical-align: bottom;padding: 10px 0px 20px 5px;">
+                    <span onclick="sbros()" class="botton">Сброс</span>
+                    <span onclick="filterorder()" class="botton">Фильтровать</span>
+                </div>
+            </form>
+        </div>
+        <div id="filter-result">
+            <table class="table-order">
+                <thead>
+                    <tr><th>Дата и время звонка</th><th>Логин Оператора</th><th>Город обращения</th><th>К кому обращение</th><th>Ответственное лицо</th><th>Текст обращения</th><th>Статус оценки</th><th>Оценить</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        string textoc = "";
+                        if (String.IsNullOrEmpty(item[8].ToString()))
+                        {
+                            textoc = "<td style=\"text-align:center; \"><span class=\"status\" style=\"color: red;\">Нет</span></td>";
+                        }
+                        else
+                        {
+                            textoc = "<td style=\"text-align:center; \"><span class=\"status\" style=\"color: green;\">Оценен</span></td>";
+                        }
+
+                        <tr id="@item[5].ToString().Trim()|@item[7].ToString().Substring(11).Replace(':', '_').Replace('.', '$')"><td>@ControlOper.Service.Function.ConvertStrDateTame(item[7].ToString().Substring(0,19))</td><td>@item[0].ToString()</td><td>@item[1].ToString()</td><td>@item[2].ToString()</td><td>@item[3].ToString()</td><td>@item[4].ToString()</td>@Html.Raw(textoc)<td class="center-text"><span style="background-color: #7fdfff;padding: 5px;border-radius: 3px;cursor: pointer;" onclick="showwindow('@item[5].ToString().Trim()|@item[7].ToString().Substring(11).Replace(':', '-').Replace('.', '$')')">Оценить</span></td></tr>
+                    }
+                </tbody>
+            </table>
+            <div class="pagenavi">
+                @if (ViewBag.namberpage == 1)
+                {
+                    <a class="activlink" href="/maneger/1">1</a>
+                }
+                else
+                {
+                    if (ViewBag.namberpage > 4)
+                    {
+                        <a href="/maneger/1">1</a><span style="font-size: 28px;position: relative;top: 8px;left: 2px;color: #44a6b6;">...</span>
+                    }
+                    else
+                    {
+                        <a href="/maneger/1">1</a>
+                    }
+                }
+                @if (ViewBag.Colstrnic > 1)
+                {
+                    for (int i = ViewBag.namberpage - 2; i < ViewBag.namberpage + 3; i++)
+                    {
+                        if (i > 1 && i < ViewBag.Colstrnic)
+                        {
+                            if (ViewBag.namberpage == i)
+                            {
+                                <a class="activlink" href="/maneger/@i">@i</a>
+                            }
+                            else
+                            {
+
+                                <a href="/maneger/@i">@i</a>
+                            }
+                        }
+                    }
+                    if (ViewBag.namberpage == ViewBag.Colstrnic)
+                    {
+                        <a class="activlink" href="/maneger/@ViewBag.Colstrnic">@ViewBag.Colstrnic</a>
+                    }
+                    else
+                    {
+                        if (ViewBag.namberpage < ViewBag.Colstrnic - 3)
+                        {
+                            <span style="font-size: 28px;position: relative;top: 8px;left: -1px;color: #44a6b6;">...</span><a href="/maneger/@ViewBag.Colstrnic">@ViewBag.Colstrnic</a>
+                        }
+                        else
+                        {
+                            <a href="/maneger/@ViewBag.Colstrnic">@ViewBag.Colstrnic</a>
+                        }
+
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    @Html.Partial("~/Views/Shared/footer.cshtml", "")
+</body>
+</html>
+
+

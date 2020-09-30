@@ -1,0 +1,71 @@
+﻿@model List<object[]>
+
+@{
+    ViewBag.Title = "";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список менеджеров оценки качества</title>
+    <link rel="stylesheet" href="~/content/Site.css" media="all">
+</head>
+<body>
+    @Html.Partial("/Views/Shared/header.cshtml", "")
+    @Html.Partial("~/Views/Shared/AdminMenu.cshtml", "")
+    <h2 style="text-align: center;">Список менеджеров оценки качества</h2>
+    <div class="mainblock">
+      
+        <table class="table-order">
+            <thead>
+                <tr><th>Порядковый номер</th><th>Логин менеджера</th><th>Фамилия имя Отчество</th><th>Присутствие пароля</th><th>Права</th><th>Пароль</th><th>Удалить</th></tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model)
+                { 
+                <tr>
+                    <td>@item[0].ToString()</td>
+                    <td>@item[1].ToString()</td>
+                    <td>@item[4].ToString()</td>
+                    @if (String.IsNullOrEmpty(item[2].ToString()))
+                    {
+                        <td style="text-align:center;"><span style="color:red;">Нету</span></td>
+                    }
+                    else
+                    {
+                        <td style="text-align:center;"><span style="color:green;text-align:center;">Есть</span></td>
+                    }
+                    @if (item[3].ToString() == "admin")
+                    {
+                        <td><span style="color:red">Администратор</span></td>
+                    }
+                    else if (item[3].ToString() == "supervizer")
+                    {
+                        <td><span style="color:green">Супервайзер</span></td>
+                    }
+                    else if (item[3].ToString() == "maneger")
+                    {
+                        <td><span style="color:grey">Менеджер</span></td>
+                    }
+                    <td class="center-text"><a href="/setmanegerpas/@item[0].ToString().Trim()">Установить</a></td>
+                    @if (item[1].ToString() != "Administrator")
+                    {
+                        <td class="center-text"><a href="/dellmaneger/@item[0].ToString().Trim()">Удалить</a></td>
+                    }
+                    else
+                    {
+                        <td class="center-text"></td>
+                    }
+                </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+    @Html.Partial("~/Views/Shared/footer.cshtml", "")
+</body>
+</html>
+
+

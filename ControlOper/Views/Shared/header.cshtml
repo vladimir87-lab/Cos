@@ -1,0 +1,32 @@
+﻿@model string
+
+<div class="head">
+    <div class="logo">
+        <img src="~/Content/logo.png" style="position: relative;top: 10px;left: 25px;">
+        @if (Model != "")
+        {
+        <div style="display: inline-block;position: absolute;right: 10px;bottom: 10px;"><span>Приветствую Вас, </span><span><b>@Model</b></span></div>
+        }
+    </div>
+    <div class="menu">
+
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="item-menu"><a href="/">Главная</a></div>
+            <div class="item-menu"><a href="/maneger">Оценка звонков</a></div>
+            <div class="item-menu" style="float: right;"><a href="/exit">Выход</a></div>
+            if (User.Identity.Name == "administrator")
+            {
+                <div class="item-menu" style="float: right;"><a href="/admin">Админ</a></div>
+            }
+        }
+        else
+        {
+            <div class="item-menu"><a href="/">Главная</a></div>
+            <div class="item-menu" style="float: right;"><a href="/login">Вход</a></div>
+        }
+    </div>
+</div>
+
+
